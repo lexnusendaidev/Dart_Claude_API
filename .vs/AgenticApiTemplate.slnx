@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="AgenticApi.Business/AgenticApi.Business.csproj" />
+  <Project Path="AgenticApi.Common/AgenticApi.Common.csproj" />
+  <Project Path="AgenticApi.Contracts/AgenticApi.Contracts.csproj" />
+  <Project Path="AgenticApi.Data/AgenticApi.Data.csproj" />
+  <Project Path="AgenticApi.Infrastructure/AgenticApi.Infrastructure.csproj" />
+  <Project Path="AgenticApi.Models/AgenticApi.Models.csproj" />
+  <Project Path="AgenticApiTemplate/AgenticApi.csproj" />
+</Solution>
