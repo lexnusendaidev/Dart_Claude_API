@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="DART_Claude.API/DART_Claude.API.csproj" />
+  <Project Path="DART_Claude.Business/DART_Claude.Business.csproj" />
+  <Project Path="DART_Claude.Common/DART_Claude.Common.csproj" />
+  <Project Path="DART_Claude.Contracts/DART_Claude.Contracts.csproj" />
+  <Project Path="DART_Claude.Data/DART_Claude.Data.csproj" />
+  <Project Path="DART_Claude.Infrastructure/DART_Claude.Infrastructure.csproj" />
+  <Project Path="DART_Claude.Models/DART_Claude.Models.csproj" />
+  <Project Path="DART_Claude.Tests/DART_Claude.Tests.csproj" />
+</Solution>

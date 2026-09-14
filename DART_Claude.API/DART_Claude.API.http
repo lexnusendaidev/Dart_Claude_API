@@ -1,0 +1,6 @@
+@DART_Claude.API_HostAddress = http://localhost:5299
+
+GET {{DART_Claude.API_HostAddress}}/api/applications
+Accept: application/json
+
+###

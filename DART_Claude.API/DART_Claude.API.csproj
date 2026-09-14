@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DART_Claude.Infrastructure\DART_Claude.Infrastructure.csproj" />
+    <ProjectReference Include="..\DART_Claude.Models\DART_Claude.Models.csproj" />
+    <ProjectReference Include="..\DART_Claude.Contracts\DART_Claude.Contracts.csproj" />
+    <ProjectReference Include="..\DART_Claude.Common\DART_Claude.Common.csproj" />
+  </ItemGroup>
+
+</Project>
