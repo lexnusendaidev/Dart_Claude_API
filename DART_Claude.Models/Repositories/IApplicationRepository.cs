@@ -4,5 +4,5 @@ namespace DART_Claude.Models.Repositories;
 
 public interface IApplicationRepository
 {
-    Task<List<IDartApplication>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<IApplicationListItem>> GetAllAsync(CancellationToken cancellationToken);
 }
