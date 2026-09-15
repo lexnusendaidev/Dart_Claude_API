@@ -16,9 +16,20 @@ public sealed class ApplicationService : IApplicationService
 
     public async Task<List<ApplicationResponse>> GetApplicationsAsync(CancellationToken cancellationToken)
     {
-        List<IDartApplication> applications = await _applicationRepository.GetAllAsync(cancellationToken);
+        List<IApplicationListItem> applications = await _applicationRepository.GetAllAsync(cancellationToken);
         List<ApplicationResponse> responses = applications
-            .Select(application => new ApplicationResponse { Id = application.AppId, Name = application.AppName })
+            .Select(application => new ApplicationResponse
+            {
+                Id = application.AppId,
+                Name = application.ApplicationName,
+                Criticality = application.Criticality,
+                AppType = application.AppType,
+                PrimaryDeveloper = application.PrimaryDeveloper,
+                SecondaryDeveloper = application.SecondaryDeveloper,
+                Analyst = application.Analyst,
+                SdlcPhase = application.SdlcPhase,
+                SdlcCheckDate = application.SdlcCheckDate,
+            })
             .ToList();
         return responses;
     }
