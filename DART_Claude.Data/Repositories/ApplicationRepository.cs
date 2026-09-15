@@ -14,10 +14,13 @@ public sealed class ApplicationRepository : IApplicationRepository
         _context = context;
     }
 
-    public async Task<List<IDartApplication>> GetAllAsync(CancellationToken cancellationToken)
+    // Reads from vw_DART_ApplicationList (scaffolded as VwDartApplicationList) rather than the raw
+    // DartApplications table, so the list already carries resolved Criticality/AppType/SDLC phase/
+    // developer names instead of just foreign key ids.
+    public async Task<List<IApplicationListItem>> GetAllAsync(CancellationToken cancellationToken)
     {
-        List<DartApplication> entities = await _context.DartApplications.ToListAsync(cancellationToken);
-        List<IDartApplication> applications = entities.Cast<IDartApplication>().ToList();
+        List<VwDartApplicationList> entities = await _context.VwDartApplicationLists.ToListAsync(cancellationToken);
+        List<IApplicationListItem> applications = entities.Cast<IApplicationListItem>().ToList();
         return applications;
     }
 }

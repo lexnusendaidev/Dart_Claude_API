@@ -4,3 +4,33 @@ GET {{DART_Claude.API_HostAddress}}/api/applications
 Accept: application/json
 
 ###
+
+GET {{DART_Claude.API_HostAddress}}/api/lookups
+Accept: application/json
+
+###
+
+GET {{DART_Claude.API_HostAddress}}/api/applications/1/paths
+Accept: application/json
+
+###
+
+GET {{DART_Claude.API_HostAddress}}/api/applications/1/dependencies
+Accept: application/json
+
+###
+
+GET {{DART_Claude.API_HostAddress}}/api/applications/1/feedback
+Accept: application/json
+
+###
+
+GET {{DART_Claude.API_HostAddress}}/api/feedback/6/files
+Accept: application/json
+
+###
+
+GET {{DART_Claude.API_HostAddress}}/api/applications/1/telemetry
+Accept: application/json
+
+###

@@ -15,6 +15,12 @@ public static class DependencyInjection
             ?? throw new InvalidOperationException("Missing 'DartClaude' connection string.");
         services.AddDbContext<DartClaudeContext>(options => options.UseSqlServer(connectionString));
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
+        services.AddScoped<IPathRepository, PathRepository>();
+        services.AddScoped<IDependencyRepository, DependencyRepository>();
+        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+        services.AddScoped<IFeedbackFileRepository, FeedbackFileRepository>();
+        services.AddScoped<ITelemetryRepository, TelemetryRepository>();
+        services.AddScoped<ILookupRepository, LookupRepository>();
         return services;
     }
 }
