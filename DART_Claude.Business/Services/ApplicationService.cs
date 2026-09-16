@@ -1,3 +1,5 @@
+using DART_Claude.Common.Constants;
+using DART_Claude.Contracts.Requests;
 using DART_Claude.Contracts.Responses;
 using DART_Claude.Models;
 using DART_Claude.Models.Repositories;
@@ -32,5 +34,29 @@ public sealed class ApplicationService : IApplicationService
             })
             .ToList();
         return responses;
+    }
+
+    public async Task<CreateApplicationResponse> CreateApplicationAsync(CreateApplicationRequest request, CancellationToken cancellationToken)
+    {
+        NewApplication newApplication = new()
+        {
+            Name = request.Name,
+            CurrentVersion = request.CurrentVersion,
+            Description = request.Description,
+            AppTypeId = request.AppTypeId,
+            CriticalityId = request.CriticalityId,
+            PrimaryDeveloperEmpId = request.PrimaryDeveloperEmpId,
+            SecondaryDeveloperEmpId = request.SecondaryDeveloperEmpId,
+            AnalystEmpId = request.AnalystEmpId,
+            SdlcPhaseId = request.SdlcPhaseId,
+            SdlcCheckDate = request.SdlcCheckDate,
+            FriendlyName = request.FriendlyName,
+            AllowFeedback = request.AllowFeedback,
+            CreatedByEmpId = PlaceholderIdentity.EmployeeId,
+        };
+
+        int id = await _applicationRepository.CreateAsync(newApplication, cancellationToken);
+        CreateApplicationResponse response = new() { Id = id };
+        return response;
     }
 }
