@@ -23,4 +23,29 @@ public sealed class ApplicationRepository : IApplicationRepository
         List<IApplicationListItem> applications = entities.Cast<IApplicationListItem>().ToList();
         return applications;
     }
+
+    public async Task<int> CreateAsync(NewApplication application, CancellationToken cancellationToken)
+    {
+        DartApplication entity = new()
+        {
+            AppName = application.Name,
+            AppCurrentVersion = application.CurrentVersion,
+            AppDescription = application.Description,
+            AppType = application.AppTypeId,
+            AppCriticalityId = application.CriticalityId,
+            AppPrimDeveloperEmpId = application.PrimaryDeveloperEmpId,
+            AppSecondaryDeveloperEmpId = application.SecondaryDeveloperEmpId,
+            AppAnalystEmpId = application.AnalystEmpId,
+            AppSdlcPhaseId = application.SdlcPhaseId,
+            AppSdlcCheckDate = application.SdlcCheckDate,
+            AppFriendlyName = application.FriendlyName,
+            AppAllowFeedback = application.AllowFeedback,
+            CreateDate = DateTime.UtcNow,
+            CreateBy = application.CreatedByEmpId,
+        };
+
+        _context.DartApplications.Add(entity);
+        await _context.SaveChangesAsync(cancellationToken);
+        return entity.AppId;
+    }
 }
