@@ -19,6 +19,12 @@ builder.Services.AddSwaggerGen(swagger => swagger.SwaggerDoc("v1", new Microsoft
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApiHandlers();
 
+string[] allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+builder.Services.AddCors(options => options.AddPolicy("Default", policy => policy
+    .WithOrigins(allowedOrigins)
+    .AllowAnyHeader()
+    .AllowAnyMethod()));
+
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("Default");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
