@@ -12,14 +12,17 @@ public abstract class ServiceResultHandlerBase
         _logger = logger;
     }
 
-    protected async Task<ServiceResult<T>> ExecuteAsync<T>(Func<Task<T>> operation, string handlerName)
+    protected async Task<ServiceResult<T>> ExecuteAsync<T>(
+        Func<Task<T>> operation,
+        string handlerName,
+        int successStatusCode = StatusCodes.Status200OK)
     {
         _logger.LogInformation("{Handler} starting", handlerName);
         try
         {
             T value = await operation();
             _logger.LogInformation("{Handler} completed", handlerName);
-            ServiceResult<T> result = ServiceResult<T>.Success(value);
+            ServiceResult<T> result = ServiceResult<T>.Success(value, successStatusCode);
             return result;
         }
         catch (EntityNotFoundException exception)

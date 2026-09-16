@@ -7,6 +7,7 @@ public static class ApiHandlerRegistration
     public static IServiceCollection AddApiHandlers(this IServiceCollection services)
     {
         services.AddScoped<GetApplicationsHandler>();
+        services.AddScoped<CreateApplicationHandler>();
         services.AddScoped<GetApplicationPathsHandler>();
         services.AddScoped<GetApplicationDependenciesHandler>();
         services.AddScoped<GetApplicationFeedbackHandler>();
