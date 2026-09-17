@@ -1,4 +1,5 @@
 using DART_Claude.Common.Constants;
+using DART_Claude.Common.Exceptions;
 using DART_Claude.Contracts.Requests;
 using DART_Claude.Contracts.Responses;
 using DART_Claude.Models;
@@ -34,6 +35,29 @@ public sealed class ApplicationService : IApplicationService
             })
             .ToList();
         return responses;
+    }
+
+    public async Task<ApplicationResponse> GetApplicationByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        IApplicationListItem? application = await _applicationRepository.GetByIdAsync(id, cancellationToken);
+        if (application is null)
+        {
+            throw new EntityNotFoundException($"Application {id} was not found.");
+        }
+
+        ApplicationResponse response = new()
+        {
+            Id = application.AppId,
+            Name = application.ApplicationName,
+            Criticality = application.Criticality,
+            AppType = application.AppType,
+            PrimaryDeveloper = application.PrimaryDeveloper,
+            SecondaryDeveloper = application.SecondaryDeveloper,
+            Analyst = application.Analyst,
+            SdlcPhase = application.SdlcPhase,
+            SdlcCheckDate = application.SdlcCheckDate,
+        };
+        return response;
     }
 
     public async Task<CreateApplicationResponse> CreateApplicationAsync(CreateApplicationRequest request, CancellationToken cancellationToken)
