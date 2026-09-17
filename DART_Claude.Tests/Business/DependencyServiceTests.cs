@@ -21,7 +21,9 @@ public sealed class DependencyServiceTests
             .Setup(repo => repo.GetByApplicationIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<IDependencyListItem> { dependency.Object });
 
-        DependencyService service = new(repository.Object);
+        Mock<IApplicationRepository> applicationRepository = new();
+
+        DependencyService service = new(repository.Object, applicationRepository.Object);
 
         List<DependencyResponse> responses = await service.GetDependenciesForApplicationAsync(1, CancellationToken.None);
 
