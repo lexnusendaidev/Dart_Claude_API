@@ -13,7 +13,11 @@ public static class DependencyInjection
     {
         string connectionString = configuration.GetConnectionString("DartClaude")
             ?? throw new InvalidOperationException("Missing 'DartClaude' connection string.");
-        services.AddDbContext<DartClaudeContext>(options => options.UseSqlServer(connectionString));
+        // Retries transient connection failures (e.g. LocalDB auto-stopping after
+        // inactivity and briefly restarting on the next connection attempt) instead of
+        // failing the request outright.
+        services.AddDbContext<DartClaudeContext>(options =>
+            options.UseSqlServer(connectionString, sqlOptions => sqlOptions.EnableRetryOnFailure()));
         services.AddScoped<IApplicationRepository, ApplicationRepository>();
         services.AddScoped<IPathRepository, PathRepository>();
         services.AddScoped<IDependencyRepository, DependencyRepository>();
