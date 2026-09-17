@@ -82,6 +82,7 @@ public partial class MyClass : IMyClass
 - Use foreign keys within the same application database where appropriate for EF Core relationships.
 - Evaluate external database foreign keys case by case. Do not assume cross-database foreign keys are appropriate.
 - CreatedBy and UpdatedBy should be nvarchar to support employee IDs or process names.
+- When creating a local development database (LocalDB or otherwise), specify an explicit file path for the data and log files instead of accepting the default, which drops them loose in the user's home directory. Keep them in a consistent, dedicated location alongside the project's other database assets, such as a `LocalDB` subfolder next to existing schema/seed scripts.
 
 ## C# Style
 
