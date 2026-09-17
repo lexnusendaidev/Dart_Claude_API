@@ -6,5 +6,6 @@ namespace DART_Claude.Models.Services;
 public interface IApplicationService
 {
     Task<List<ApplicationResponse>> GetApplicationsAsync(CancellationToken cancellationToken);
+    Task<ApplicationResponse> GetApplicationByIdAsync(int id, CancellationToken cancellationToken);
     Task<CreateApplicationResponse> CreateApplicationAsync(CreateApplicationRequest request, CancellationToken cancellationToken);
 }

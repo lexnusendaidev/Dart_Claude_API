@@ -10,13 +10,16 @@ namespace DART_Claude.API.Controllers;
 public sealed class ApplicationsController : ControllerBase
 {
     private readonly GetApplicationsHandler _getApplicationsHandler;
+    private readonly GetApplicationByIdHandler _getApplicationByIdHandler;
     private readonly CreateApplicationHandler _createApplicationHandler;
 
     public ApplicationsController(
         GetApplicationsHandler getApplicationsHandler,
+        GetApplicationByIdHandler getApplicationByIdHandler,
         CreateApplicationHandler createApplicationHandler)
     {
         _getApplicationsHandler = getApplicationsHandler;
+        _getApplicationByIdHandler = getApplicationByIdHandler;
         _createApplicationHandler = createApplicationHandler;
     }
 
@@ -24,6 +27,13 @@ public sealed class ApplicationsController : ControllerBase
     public async Task<IActionResult> GetApplicationsAsync(CancellationToken cancellationToken)
     {
         IActionResult result = (await _getApplicationsHandler.HandleAsync(cancellationToken)).ToActionResult();
+        return result;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetApplicationByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        IActionResult result = (await _getApplicationByIdHandler.HandleAsync(id, cancellationToken)).ToActionResult();
         return result;
     }
 
