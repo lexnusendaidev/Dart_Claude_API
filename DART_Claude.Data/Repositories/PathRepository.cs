@@ -22,4 +22,20 @@ public sealed class PathRepository : IPathRepository
         List<IPathListItem> paths = entities.Cast<IPathListItem>().ToList();
         return paths;
     }
+
+    public async Task<int> CreateAsync(NewPath path, CancellationToken cancellationToken)
+    {
+        DartPath entity = new()
+        {
+            PathAppId = path.ApplicationId,
+            PathTypeId = path.PathTypeId,
+            PathLocation = path.PathLocation,
+            CreateDate = DateTime.UtcNow,
+            CreateBy = path.CreatedByEmpId,
+        };
+
+        _context.DartPaths.Add(entity);
+        await _context.SaveChangesAsync(cancellationToken);
+        return entity.PathId;
+    }
 }

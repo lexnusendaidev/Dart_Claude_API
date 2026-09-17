@@ -24,6 +24,13 @@ public sealed class ApplicationRepository : IApplicationRepository
         return applications;
     }
 
+    public async Task<IApplicationListItem?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        VwDartApplicationList? entity = await _context.VwDartApplicationLists
+            .FirstOrDefaultAsync(application => application.AppId == id, cancellationToken);
+        return entity;
+    }
+
     public async Task<int> CreateAsync(NewApplication application, CancellationToken cancellationToken)
     {
         DartApplication entity = new()

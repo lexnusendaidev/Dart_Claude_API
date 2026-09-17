@@ -22,7 +22,9 @@ public sealed class PathServiceTests
             .Setup(repo => repo.GetByApplicationIdAsync(1, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new List<IPathListItem> { path.Object });
 
-        PathService service = new(repository.Object);
+        Mock<IApplicationRepository> applicationRepository = new();
+
+        PathService service = new(repository.Object, applicationRepository.Object);
 
         List<PathResponse> responses = await service.GetPathsForApplicationAsync(1, CancellationToken.None);
 
