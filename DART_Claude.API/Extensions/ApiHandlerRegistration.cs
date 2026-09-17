@@ -10,6 +10,7 @@ public static class ApiHandlerRegistration
         services.AddScoped<GetApplicationByIdHandler>();
         services.AddScoped<CreateApplicationHandler>();
         services.AddScoped<GetApplicationPathsHandler>();
+        services.AddScoped<CreatePathHandler>();
         services.AddScoped<GetApplicationDependenciesHandler>();
         services.AddScoped<GetApplicationFeedbackHandler>();
         services.AddScoped<GetFeedbackFilesHandler>();
