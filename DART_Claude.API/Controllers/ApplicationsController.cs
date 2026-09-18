@@ -11,16 +11,22 @@ public sealed class ApplicationsController : ControllerBase
 {
     private readonly GetApplicationsHandler _getApplicationsHandler;
     private readonly GetApplicationByIdHandler _getApplicationByIdHandler;
+    private readonly GetApplicationDetailHandler _getApplicationDetailHandler;
     private readonly CreateApplicationHandler _createApplicationHandler;
+    private readonly UpdateApplicationHandler _updateApplicationHandler;
 
     public ApplicationsController(
         GetApplicationsHandler getApplicationsHandler,
         GetApplicationByIdHandler getApplicationByIdHandler,
-        CreateApplicationHandler createApplicationHandler)
+        GetApplicationDetailHandler getApplicationDetailHandler,
+        CreateApplicationHandler createApplicationHandler,
+        UpdateApplicationHandler updateApplicationHandler)
     {
         _getApplicationsHandler = getApplicationsHandler;
         _getApplicationByIdHandler = getApplicationByIdHandler;
+        _getApplicationDetailHandler = getApplicationDetailHandler;
         _createApplicationHandler = createApplicationHandler;
+        _updateApplicationHandler = updateApplicationHandler;
     }
 
     [HttpGet]
@@ -37,12 +43,29 @@ public sealed class ApplicationsController : ControllerBase
         return result;
     }
 
+    [HttpGet("{id}/detail")]
+    public async Task<IActionResult> GetApplicationDetailAsync(int id, CancellationToken cancellationToken)
+    {
+        IActionResult result = (await _getApplicationDetailHandler.HandleAsync(id, cancellationToken)).ToActionResult();
+        return result;
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateApplicationAsync(
         [FromBody] CreateApplicationRequest request,
         CancellationToken cancellationToken)
     {
         IActionResult result = (await _createApplicationHandler.HandleAsync(request, cancellationToken)).ToActionResult();
+        return result;
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateApplicationAsync(
+        int id,
+        [FromBody] UpdateApplicationRequest request,
+        CancellationToken cancellationToken)
+    {
+        IActionResult result = (await _updateApplicationHandler.HandleAsync(id, request, cancellationToken)).ToActionResult();
         return result;
     }
 }
