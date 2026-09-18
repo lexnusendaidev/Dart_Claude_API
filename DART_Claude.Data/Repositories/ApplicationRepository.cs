@@ -31,6 +31,17 @@ public sealed class ApplicationRepository : IApplicationRepository
         return entity;
     }
 
+    // Reads from the raw DartApplications table, not the view, since GetDetailByIdAsync's callers
+    // need the raw foreign key ids (AppTypeId, CriticalityId, ...) to prefill an edit form, not the
+    // view's resolved display-name strings.
+    public async Task<IApplicationDetail?> GetDetailByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        DartApplication? entity = await _context.DartApplications
+            .AsNoTracking()
+            .FirstOrDefaultAsync(application => application.AppId == id, cancellationToken);
+        return entity;
+    }
+
     public async Task<int> CreateAsync(NewApplication application, CancellationToken cancellationToken)
     {
         DartApplication entity = new()
@@ -54,5 +65,29 @@ public sealed class ApplicationRepository : IApplicationRepository
         _context.DartApplications.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
         return entity.AppId;
+    }
+
+    public async Task UpdateAsync(UpdatedApplication application, CancellationToken cancellationToken)
+    {
+        DartApplication? entity = await _context.DartApplications
+            .FindAsync(new object[] { application.Id }, cancellationToken);
+        if (entity is not null)
+        {
+            entity.AppName = application.Name;
+            entity.AppCurrentVersion = application.CurrentVersion;
+            entity.AppDescription = application.Description;
+            entity.AppType = application.AppTypeId;
+            entity.AppCriticalityId = application.CriticalityId;
+            entity.AppPrimDeveloperEmpId = application.PrimaryDeveloperEmpId;
+            entity.AppSecondaryDeveloperEmpId = application.SecondaryDeveloperEmpId;
+            entity.AppAnalystEmpId = application.AnalystEmpId;
+            entity.AppSdlcPhaseId = application.SdlcPhaseId;
+            entity.AppSdlcCheckDate = application.SdlcCheckDate;
+            entity.AppFriendlyName = application.FriendlyName;
+            entity.AppAllowFeedback = application.AllowFeedback;
+            entity.UpdateDate = DateTime.UtcNow;
+            entity.UpdateBy = application.UpdatedByEmpId;
+            await _context.SaveChangesAsync(cancellationToken);
+        }
     }
 }
